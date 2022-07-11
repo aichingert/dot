@@ -1,9 +1,5 @@
 use bevy::{prelude::*};
 
-const PADDLE_SPEED: f32 = 350.0;
-
-const BALL_SIZE: f32 = 50.0;
-
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
@@ -19,7 +15,6 @@ struct Ball;
 
 fn setup(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
 ) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 
@@ -32,10 +27,43 @@ fn setup(
                 ..default()
             },
             transform: Transform { 
-                translation: Vec3::new(0.0, 0.0, 1.0), 
+                translation: Vec3::new(0.0, -50.0, 1.0), 
                 scale: Vec3::new(50.0, 50.0, 1.0),
                 ..default()
             },
         ..default()
     });
+
+    commands
+        .spawn()
+        .insert(Paddle)
+        .insert_bundle(SpriteBundle {
+            transform: Transform {
+                scale: Vec3::new(250.0, 30.0, 0.0),
+                translation: Vec3::new(0.0, -250.0, 1.0),
+                ..default()
+            },
+            sprite: Sprite {
+                color: Color::rgb(0.9, 0.9, 0.9),
+                ..default()
+            },
+            ..default()
+    });
+
+    commands
+        .spawn()
+        .insert(Paddle)
+        .insert_bundle(SpriteBundle {
+            transform: Transform {
+                scale: Vec3::new(250.0, 30.0, 0.0),
+                translation: Vec3::new(0.0, 250.0, 1.0),
+                ..default()
+            },
+            sprite: Sprite {
+                color: Color::rgb(0.9, 0.9, 0.9),
+                ..default()
+            },
+            ..default()
+    });
+    //  Vec3::new(30.0, 30.0, 0.0);
 }
