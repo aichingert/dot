@@ -7,14 +7,12 @@ const RIGHT_BOUND: f32 = super::RIGHT_WALL - 150.0 / 2.0;
 #[derive(Component, Debug, Clone, Copy, PartialEq)]
 pub struct Paddle {
     id: usize,
-    pos: (f32, f32),
 }
 
 impl Paddle {
-    fn new(id: usize, pos: (f32, f32)) -> Self {
+    fn new(id: usize) -> Self {
         Self { 
             id,
-            pos
          }
     }
 }
@@ -25,7 +23,7 @@ impl Plugin for PaddlePlugin {
     fn build(&self, app: &mut App) {
         app
             .add_startup_system(setup)
-            .add_system(movement);
+            .add_system(paddle_movement);
     }
 }
 
@@ -34,7 +32,7 @@ fn setup(
 ) {
     commands
     .spawn()
-    .insert(Paddle::new(1, (0.0, -250.0)))
+    .insert(Paddle::new(1))
     .insert_bundle(SpriteBundle {
         transform: Transform {
             scale: Vec3::new(150.0, 30.0, 0.0),
@@ -50,7 +48,7 @@ fn setup(
 
     commands
         .spawn()
-        .insert(Paddle::new(2, (0.0, 250.0)))
+        .insert(Paddle::new(2))
         .insert_bundle(SpriteBundle {
             transform: Transform {
                 scale: Vec3::new(150.0, 30.0, 0.0),
@@ -65,8 +63,7 @@ fn setup(
     });
 }
 
-fn movement(
-    mut commands: Commands,
+fn paddle_movement(
     mut query: Query<(&mut Transform, &mut Paddle)>,
     keyboard_input: ResMut<Input<KeyCode>>,
 ) {
@@ -87,12 +84,12 @@ fn movement(
     }
 
     if keyboard_input.pressed(KeyCode::Left) {
-        first_paddle_direction -= 1.0;
+        second_paddle_direction -= 1.0;
         second_paddle = true;
     }
 
     if keyboard_input.pressed(KeyCode::Right) {
-        first_paddle_direction += 1.0;
+        second_paddle_direction += 1.0;
         second_paddle = true;
     }
 
@@ -105,7 +102,7 @@ fn movement(
         }
 
         if paddle.id == 2 && second_paddle {
-            new_paddle_position = paddle_transform.translation.x + first_paddle_direction * SPEED * super::FPS;
+            new_paddle_position = paddle_transform.translation.x + second_paddle_direction * SPEED * super::FPS;
             paddle_transform.translation.x = new_paddle_position.clamp(LEFT_BOUND, RIGHT_BOUND);
         }
     });
