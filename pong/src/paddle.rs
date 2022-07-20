@@ -17,17 +17,7 @@ impl Paddle {
     }
 }
 
-pub struct PaddlePlugin; 
-
-impl Plugin for PaddlePlugin {
-    fn build(&self, app: &mut App) {
-        app
-            .add_startup_system(setup)
-            .add_system(paddle_movement);
-    }
-}
-
-fn setup(
+pub fn paddle_setup(
     mut commands: Commands,
 ) {
     commands
@@ -63,7 +53,7 @@ fn setup(
     });
 }
 
-fn paddle_movement(
+pub fn paddle_movement(
     mut query: Query<(&mut Transform, &mut Paddle)>,
     keyboard_input: ResMut<Input<KeyCode>>,
 ) {

@@ -1,7 +1,9 @@
 mod paddle;
+mod scoreboard;
 
 use bevy::{prelude::*};
-use paddle::PaddlePlugin;
+use paddle::*;
+use scoreboard::ScoreboardPlugin;
 
 const FPS: f32 = 1f32 / 60f32;
 
@@ -21,8 +23,10 @@ fn main() {
             ..default()
         })
         .add_plugins(DefaultPlugins)
+        .add_plugin(ScoreboardPlugin)
         .add_startup_system(setup)
-        .add_plugin(PaddlePlugin)
+        .add_startup_system(paddle_setup)
+        .add_system(paddle_movement)
         .run();
 }
 
