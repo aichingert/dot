@@ -3,6 +3,13 @@ mod paddle;
 use bevy::{prelude::*};
 use paddle::PaddlePlugin;
 
+const FPS: f32 = 1f32 / 60f32;
+
+const LEFT_WALL: f32 = -450f32;
+const RIGHT_WALL: f32 = 450f32;
+const TOP_WALL: f32 = -300f32;
+const BOTTOM_WALL: f32 = 300f32;
+
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0f32, 0f32, 0f32)))
