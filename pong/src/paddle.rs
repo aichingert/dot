@@ -1,4 +1,4 @@
-use bevy::{prelude::*};
+use bevy::prelude::*;
 
 const SPEED: f32 = 600f32;
 const LEFT_BOUND: f32 = super::LEFT_WALL + 150.0 / 2.0;

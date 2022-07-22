@@ -1,11 +1,16 @@
 mod paddle;
 mod scoreboard;
+mod physics;
 
-use bevy::{prelude::*};
+use bevy::{prelude::*, core::FixedTimestep};
 use paddle::*;
 use scoreboard::ScoreboardPlugin;
+use physics::*;
+use rand;
 
 const FPS: f32 = 1f32 / 60f32;
+
+const BALL_SPEED: f32 = 100f32;
 
 const LEFT_WALL: f32 = -450f32;
 const RIGHT_WALL: f32 = 450f32;
@@ -26,7 +31,12 @@ fn main() {
         .add_plugin(ScoreboardPlugin)
         .add_startup_system(setup)
         .add_startup_system(paddle_setup)
-        .add_system(paddle_movement)
+        .add_system_set(
+            SystemSet::new()
+                .with_run_criteria(FixedTimestep::step(FPS as f64))
+                .with_system(paddle_movement)
+                .with_system(apply_velocity)
+        )
         .run();
 }
 
@@ -37,6 +47,8 @@ fn setup(
     mut commands: Commands,
 ) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
+
+    let ball_velocity: Vec2 = Vec2::new(0.5, if rand::random() { -0.5 } else { 0.5 });
 
     commands
         .spawn()    
@@ -52,5 +64,6 @@ fn setup(
                 ..default()
             },
         ..default()
-    });
+    })
+    .insert(Velocity(ball_velocity.normalize() * BALL_SPEED));
 }
