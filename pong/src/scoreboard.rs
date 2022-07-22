@@ -1,13 +1,8 @@
-use bevy::{prelude::*};
+use bevy::prelude::*;
 
 const FONT_SIZE: f32 = 40.0;
-/*
-const TEXT_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
-const SCORE_COLOR: Color = Color::rgb(1.0, 1.0, 1.0);
-*/
 
-const TEXT_COLOR: Color = Color::rgb(0.5, 0.5, 1.0);
-const SCORE_COLOR: Color = Color::rgb(1.0, 0.5, 0.5);
+const TEXT_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 const SCOREBOARD_TEXT_PADDING: Val = Val::Px(5.0);
 
 pub struct Scoreboard {
@@ -38,7 +33,7 @@ fn setup(
                     style: TextStyle {
                         font: default(),
                         font_size: 40.0,
-                        color: Color::rgb(0.5, 0.5, 1.0),
+                        color: TEXT_COLOR,
                     },
                 },
                 TextSection {
@@ -51,8 +46,8 @@ fn setup(
         style: Style {
             position_type: PositionType::Absolute,
             position: Rect {
-                top: Val::Px(5.0),
-                left: Val::Px(5.0),
+                top: SCOREBOARD_TEXT_PADDING,
+                left: SCOREBOARD_TEXT_PADDING,
                 ..Default::default()
             },
             ..Default::default()

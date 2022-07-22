@@ -14,8 +14,8 @@ const BALL_SPEED: f32 = 100f32;
 
 const LEFT_WALL: f32 = -450f32;
 const RIGHT_WALL: f32 = 450f32;
-const TOP_WALL: f32 = -300f32;
-const BOTTOM_WALL: f32 = 300f32;
+const TOP_WALL: f32 = 300f32;
+const BOTTOM_WALL: f32 = -300f32;
 
 fn main() {
     App::new()
@@ -66,4 +66,9 @@ fn setup(
         ..default()
     })
     .insert(Velocity(ball_velocity.normalize() * BALL_SPEED));
+
+    commands.spawn_bundle(WallBundle::new(WallLocation::Left));
+    commands.spawn_bundle(WallBundle::new(WallLocation::Right));
+    commands.spawn_bundle(WallBundle::new(WallLocation::Bottom));
+    commands.spawn_bundle(WallBundle::new(WallLocation::Top));
 }
