@@ -1,3 +1,13 @@
-# Pong
+# Pong-Clone
 
-A simple game written in rust using bevy.
+## It's a pong clone which is still in developement 
+It's written in rust and uses the bevy engine.
+
+## What the game currently looks like
+<img src="assets/pong-clone-asset.png" />
+
+## Missing
+
+* Collision
+* Walls
+* Scoreboard
