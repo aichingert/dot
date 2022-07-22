@@ -9,5 +9,4 @@ It's written in rust and uses the bevy engine.
 ## Missing
 
 * Collision
-* Walls
 * Scoreboard
