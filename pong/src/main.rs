@@ -1,16 +1,21 @@
 mod paddle;
 mod scoreboard;
 mod physics;
+mod ball;
 
-use bevy::{prelude::*, core::FixedTimestep};
+use bevy::{
+    prelude::*,
+    core::FixedTimestep,
+};
 use paddle::*;
 use scoreboard::ScoreboardPlugin;
 use physics::*;
 use rand;
+use ball::Ball;
 
 const FPS: f32 = 1f32 / 60f32;
 
-const BALL_SPEED: f32 = 100f32;
+const BALL_SPEED: f32 = 500f32;
 
 const LEFT_WALL: f32 = -450f32;
 const RIGHT_WALL: f32 = 450f32;
@@ -31,17 +36,16 @@ fn main() {
         .add_plugin(ScoreboardPlugin)
         .add_startup_system(setup)
         .add_startup_system(paddle_setup)
+        .add_event::<CollisionEvent>()
         .add_system_set(
             SystemSet::new()
                 .with_run_criteria(FixedTimestep::step(FPS as f64))
-                .with_system(paddle_movement)
-                .with_system(apply_velocity)
+                .with_system(check_for_collisions)
+                .with_system(paddle_movement.before(check_for_collisions))
+                .with_system(apply_velocity.before(check_for_collisions))
         )
         .run();
 }
-
-#[derive(Component)]
-struct Ball;
 
 fn setup(
     mut commands: Commands,
@@ -66,6 +70,10 @@ fn setup(
         ..default()
     })
     .insert(Velocity(ball_velocity.normalize() * BALL_SPEED));
+
+    //
+    // Adding Walls
+    //
 
     commands.spawn_bundle(WallBundle::new(WallLocation::Left));
     commands.spawn_bundle(WallBundle::new(WallLocation::Right));

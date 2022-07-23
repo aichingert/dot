@@ -1,6 +1,8 @@
 use bevy::prelude::*;
+use crate::physics::Collider;
 
-const SPEED: f32 = 600f32;
+const PADDLE_SIZE: (f32, f32) = (150.0, 30.0);
+const PADDLE_SPEED: f32 = 500f32;
 const LEFT_BOUND: f32 = super::LEFT_WALL + 150.0 / 2.0;
 const RIGHT_BOUND: f32 = super::RIGHT_WALL - 150.0 / 2.0;
 
@@ -10,7 +12,7 @@ pub struct Paddle {
 }
 
 impl Paddle {
-    fn new(id: usize) -> Self {
+    pub fn new(id: usize) -> Self {
         Self { 
             id,
          }
@@ -20,12 +22,16 @@ impl Paddle {
 pub fn paddle_setup(
     mut commands: Commands,
 ) {
+    //
+    // Spawning paddles
+    //
+
     commands
     .spawn()
     .insert(Paddle::new(1))
     .insert_bundle(SpriteBundle {
         transform: Transform {
-            scale: Vec3::new(150.0, 30.0, 0.0),
+            scale: Vec3::new(PADDLE_SIZE.0, PADDLE_SIZE.1, 0.0),
             translation: Vec3::new(0.0, -250.0, 1.0),
             ..default()
         },
@@ -34,23 +40,25 @@ pub fn paddle_setup(
             ..default()
         },
         ..default()
-    });
+    })
+    .insert(Collider);
 
     commands
-        .spawn()
-        .insert(Paddle::new(2))
-        .insert_bundle(SpriteBundle {
-            transform: Transform {
-                scale: Vec3::new(150.0, 30.0, 0.0),
-                translation: Vec3::new(0.0, 250.0, 1.0),
-                ..default()
-            },
-            sprite: Sprite {
-                color: Color::rgb(0.9, 0.9, 0.9),
-                ..default()
-            },
+    .spawn()
+    .insert(Paddle::new(2))
+    .insert_bundle(SpriteBundle {
+        transform: Transform {
+            scale: Vec3::new(PADDLE_SIZE.0, PADDLE_SIZE.1, 0.0),
+            translation: Vec3::new(0.0, 250.0, 1.0),
             ..default()
-    });
+        },
+        sprite: Sprite {
+            color: Color::rgb(0.9, 0.9, 0.9),
+            ..default()
+        },
+        ..default()
+    })
+    .insert(Collider);
 }
 
 pub fn paddle_movement(
@@ -87,12 +95,12 @@ pub fn paddle_movement(
 
     query.for_each_mut( | (mut paddle_transform, paddle) | {
         if paddle.id == 1 && first_paddle {
-            new_paddle_position = paddle_transform.translation.x + first_paddle_direction * SPEED * super::FPS;
+            new_paddle_position = paddle_transform.translation.x + first_paddle_direction * PADDLE_SPEED * super::FPS;
             paddle_transform.translation.x = new_paddle_position.clamp(LEFT_BOUND, RIGHT_BOUND);
         }
 
         if paddle.id == 2 && second_paddle {
-            new_paddle_position = paddle_transform.translation.x + second_paddle_direction * SPEED * super::FPS;
+            new_paddle_position = paddle_transform.translation.x + second_paddle_direction * PADDLE_SPEED * super::FPS;
             paddle_transform.translation.x = new_paddle_position.clamp(LEFT_BOUND, RIGHT_BOUND);
         }
     });

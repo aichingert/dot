@@ -1,7 +1,13 @@
-use bevy::prelude::*;
+use bevy::{
+    prelude::*,
+    sprite::collide_aabb::{collide, Collision},
+};
 
-const WALL_THICKNESS: f32 = 5f32;
-const WALL_COLOR: Color = Color::rgb(1.0, 1.0, 1.0);
+//use crate::scoreboard::Scoreboard;
+use crate::ball::Ball;
+
+const WALL_THICKNESS: f32 = 3f32;
+const WALL_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 
 #[derive(Component)]
 pub struct Collider;
@@ -79,5 +85,58 @@ pub fn apply_velocity(mut query: Query<(&mut Transform, &Velocity)>) {
     query.for_each_mut( | (mut transform, velocity) | {
         transform.translation.x += velocity.x * super::FPS;
         transform.translation.y += velocity.y * super::FPS;
+    });
+}
+
+pub fn check_for_collisions(
+    mut ball_query: Query<(&mut Velocity, &Transform), With<Ball>>,
+    collider_query: Query<(Entity, &Transform), With<Collider>>,
+    mut collision_events: EventWriter<CollisionEvent>,
+) {
+    //
+    // Gets the only ball we have and stores the velocity and transform values in variables
+    //
+
+    let (mut ball_velocity, ball_transform) = ball_query.single_mut();
+    let ball_size: Vec2 = ball_transform.scale.truncate();
+
+    //
+    // Checking for collisions
+    //
+
+    collider_query.for_each( | (_, transform) | {
+        let collision = collide(
+            ball_transform.translation,
+            ball_size,
+            transform.translation,
+            transform.scale.truncate(),
+        );
+
+        if let Some(collision) = collision {
+            //
+            // Found collision so we send a collision event so the other systems can react
+            //
+            
+            collision_events.send_default();
+
+            let mut reflect_x: bool = false;
+            let mut reflect_y: bool = false;
+
+            match collision {
+                Collision::Left => reflect_x = ball_velocity.x > 0.0,
+                Collision::Right => reflect_x = ball_velocity.x < 0.0,
+                Collision::Top => reflect_y = ball_velocity.y < 0.0,
+                Collision::Bottom => reflect_y = ball_velocity.y > 0.0,
+                Collision::Inside => { /* do nothing */ }
+            }
+
+            if reflect_x {
+                ball_velocity.x = -ball_velocity.x;
+            }
+
+            if reflect_y {
+                ball_velocity.y = -ball_velocity.y;
+            }
+        }
     });
 }
