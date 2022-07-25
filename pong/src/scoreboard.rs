@@ -23,6 +23,8 @@ impl Plugin for ScoreboardPlugin {
 fn setup(
     mut commands:  Commands,
 ) {
+    commands.spawn_bundle(UiCameraBundle::default());
+
     commands
     .spawn()
     .insert_bundle(TextBundle {
