@@ -9,57 +9,81 @@ pub struct Scoreboard {
     score: usize
 }
 
+// region:    Components
+#[derive(Component)]
+struct Score(f32);
+// endregion:    Components
+
 pub struct ScoreboardPlugin;
 
 impl Plugin for ScoreboardPlugin {
     fn build(&self, app: &mut App) {
         app
             .insert_resource(Scoreboard { score: 10 })
-            .add_startup_system(setup)
-            .add_system(update_scoreboard);
+            //.add_startup_system(setup)
+            .add_startup_system(score_spawn)
+            .add_system(update_score);
     }
 }
 
-fn setup(
-    mut commands:  Commands,
+fn score_spawn(
+    mut commands: Commands,
+    materials: Res<AssetServer>
 ) {
-    commands.spawn_bundle(UiCameraBundle::default());
-
-    commands
-    .spawn()
-    .insert_bundle(TextBundle {
-        text: Text {
-            sections: vec![
-                TextSection {
-                    value: "Score: ".to_string(),
-                    style: TextStyle {
-                        font: default(),
-                        font_size: 40.0,
-                        color: TEXT_COLOR,
-                    },
+    //Score text
+    commands.
+        spawn_bundle(Text2dBundle {
+            text: Text::with_section(
+                "Score: ",
+                TextStyle {
+                    font: materials.load("fonts/Perfect Island.otf"),
+                    font_size: 50.0,
+                    color: Color::rgb(0.0823, 0.0627, 0.1686),
                 },
-                TextSection {
-                    value: "".to_string(),
-                    ..default()
-                },
-            ],
-            ..Default::default()
-        },
-        style: Style {
-            position_type: PositionType::Absolute,
-            position: Rect {
-                top: SCOREBOARD_TEXT_PADDING,
-                left: SCOREBOARD_TEXT_PADDING,
+                TextAlignment {
+                    vertical: VerticalAlign::Center,
+                    horizontal: HorizontalAlign::Center,
+                }
+            ),
+            transform: Transform {
+                translation: Vec3::new(-380.,190.,30.),
                 ..Default::default()
             },
             ..Default::default()
-        },
-        ..Default::default()
-    });
+        });
+    //Score value
+    commands
+        .spawn_bundle(Text2dBundle {
+            text: Text::with_section(
+                "",
+                TextStyle {
+                    font: materials.load("fonts/Perfect Island.otf"),
+                    font_size: 50.0,
+                    color: Color::rgb(0.0823, 0.0627, 0.1686),
+                },
+                TextAlignment {
+                    vertical: VerticalAlign::Center,
+                    horizontal: HorizontalAlign::Center,
+                }
+            ),
+            transform: Transform {
+                translation: Vec3::new(-255.,188.,30.),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(Score(0.));
 }
 
+fn update_score(
+    time: Res<Time>,
+    mut query: Query<(&mut Text, &mut Score)>
+){  
+    let (mut text, mut score) = query.single_mut();
 
-fn update_scoreboard(scoreboard: Res<Scoreboard>, mut text_query: Query<&mut Text>) {
-    let mut text = text_query.single_mut();
-    text.sections[1].value = format!("{}", scoreboard.score);
+    score.0 += time.delta_seconds();
+    let value = score.0 as u32;
+    let string = format!("{:05}", value);
+
+    text.sections[0].value = string;
 }
