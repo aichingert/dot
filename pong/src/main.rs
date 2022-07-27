@@ -2,7 +2,6 @@ mod paddle;
 mod scoreboard;
 mod physics;
 mod ball;
-mod ui;
 
 use bevy::{
     prelude::*,
@@ -13,7 +12,6 @@ use scoreboard::ScoreboardPlugin;
 use physics::*;
 use rand;
 use ball::Ball;
-use ui::UiPlugin;
 
 const FPS: f32 = 1f32 / 60f32;
 
@@ -36,7 +34,6 @@ fn main() {
         })
         .add_plugins(DefaultPlugins)
         .add_plugin(ScoreboardPlugin)
-        .add_plugin(UiPlugin)
         .add_startup_system(setup)
         .add_startup_system(paddle_setup)
         .add_event::<CollisionEvent>()

@@ -5,6 +5,7 @@ use bevy::{
 
 //use crate::scoreboard::Scoreboard;
 use crate::ball::Ball;
+use crate::scoreboard::Score;
 
 const WALL_THICKNESS: f32 = 3f32;
 const WALL_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
@@ -92,6 +93,7 @@ pub fn check_for_collisions(
     mut ball_query: Query<(&mut Velocity, &Transform), With<Ball>>,
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     mut collision_events: EventWriter<CollisionEvent>,
+    mut text_query: Query<(&mut Text, &mut Score)>
 ) {
     //
     // Gets the only ball we have and stores the velocity and transform values in variables
@@ -125,8 +127,28 @@ pub fn check_for_collisions(
             match collision {
                 Collision::Left => reflect_x = ball_velocity.x > 0.0,
                 Collision::Right => reflect_x = ball_velocity.x < 0.0,
-                Collision::Top => reflect_y = ball_velocity.y < 0.0,
-                Collision::Bottom => reflect_y = ball_velocity.y > 0.0,
+                Collision::Top =>  {
+                    reflect_y = ball_velocity.y < 0.0;
+
+                    if ball_transform.translation.y < -250.0 {
+                        text_query.for_each_mut( | (_, mut score) | {
+                            if score.1 == 1 {
+                                score.0 += 1.0;
+                            }
+                        });
+                    }
+                },
+                Collision::Bottom => {
+                    reflect_y = ball_velocity.y > 0.0;
+
+                    if ball_transform.translation.y > 220.0 {
+                        text_query.for_each_mut( | (_, mut score) | {
+                            if score.1 == 2 {
+                                score.0 += 1.0;
+                            }
+                        });
+                    }
+                },
                 Collision::Inside => { /* do nothing */ }
             }
 

@@ -49,7 +49,7 @@ pub fn paddle_setup(
     .insert_bundle(SpriteBundle {
         transform: Transform {
             scale: Vec3::new(PADDLE_SIZE.0, PADDLE_SIZE.1, 0.0),
-            translation: Vec3::new(0.0, 250.0, 1.0),
+            translation: Vec3::new(0.0, 220.0, 1.0),
             ..default()
         },
         sprite: Sprite {
