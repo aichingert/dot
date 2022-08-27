@@ -8,7 +8,7 @@ use bevy::prelude::*;
 use paddle::*;
 use scoreboard::ScoreboardPlugin;
 use physics::*;
-use states::GameState;
+use states::*;
 
 const FPS: f32 = 1f32 / 60f32;
 
@@ -34,6 +34,6 @@ fn main() {
         .add_plugin(ScoreboardPlugin)
         .add_startup_system(paddle_setup)
         .add_event::<CollisionEvent>()
-
+        .add_plugin(GamePlugin)
         .run();
 }

@@ -8,7 +8,6 @@ use crate::paddle::*;
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash)]
 pub enum GameState {
-    Reset,
     Playing
 }
 
