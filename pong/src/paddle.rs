@@ -1,23 +1,11 @@
 use bevy::prelude::*;
-use crate::physics::Collider;
+
+use crate::physics::*;
 
 const PADDLE_SIZE: (f32, f32) = (150.0, 30.0);
 const PADDLE_SPEED: f32 = 500f32;
 const LEFT_BOUND: f32 = super::LEFT_WALL + 150.0 / 2.0;
 const RIGHT_BOUND: f32 = super::RIGHT_WALL - 150.0 / 2.0;
-
-#[derive(Component, Debug, Clone, Copy, PartialEq)]
-pub struct Paddle {
-    id: usize,
-}
-
-impl Paddle {
-    pub fn new(id: usize) -> Self {
-        Self { 
-            id,
-         }
-    }
-}
 
 pub fn paddle_setup(
     mut commands: Commands,
@@ -59,6 +47,28 @@ pub fn paddle_setup(
         ..default()
     })
     .insert(Collider);
+
+    //
+    // Adding Walls
+    //
+
+    commands.spawn_bundle(WallBundle::new(WallLocation::Left));
+    commands.spawn_bundle(WallBundle::new(WallLocation::Right));
+    commands.spawn_bundle(WallBundle::new(WallLocation::Bottom));
+    commands.spawn_bundle(WallBundle::new(WallLocation::Top));
+}
+
+#[derive(Component, Debug, Clone, Copy, PartialEq)]
+pub struct Paddle {
+    id: usize,
+}
+
+impl Paddle {
+    pub fn new(id: usize) -> Self {
+        Self { 
+            id,
+         }
+    }
 }
 
 pub fn paddle_movement(

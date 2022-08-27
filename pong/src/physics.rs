@@ -90,10 +90,11 @@ pub fn apply_velocity(mut query: Query<(&mut Transform, &Velocity)>) {
 }
 
 pub fn check_for_collisions(
-    mut ball_query: Query<(&mut Velocity, &Transform), With<Ball>>,
+    mut ball_query: Query<(&mut Velocity, &Transform), With<Ball>,>,
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     mut collision_events: EventWriter<CollisionEvent>,
     mut text_query: Query<(&mut Text, &mut Score)>
+
 ) {
     //
     // Gets the only ball we have and stores the velocity and transform values in variables
