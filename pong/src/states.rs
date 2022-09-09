@@ -1,6 +1,5 @@
 use bevy::{
-    prelude::*,
-    core::FixedTimestep,
+    prelude::*
 };
 
 use crate::physics::*;
@@ -18,7 +17,6 @@ impl Plugin for GamePlugin {
         app
             .add_system_set(
                 SystemSet::on_update(GameState::Playing)
-                    .with_run_criteria(FixedTimestep::step(super::FPS as f64))
                     .with_system(check_for_collisions)
                     .with_system(paddle_movement.before(check_for_collisions))
                     .with_system(apply_velocity.before(check_for_collisions))

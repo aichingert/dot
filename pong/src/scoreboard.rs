@@ -1,6 +1,5 @@
 use bevy::{
-    prelude::*,
-    core::FixedTimestep,
+    prelude::*
 };
 
 const FONT_SIZE: f32 = 40f32;
@@ -17,7 +16,6 @@ impl Plugin for ScoreboardPlugin {
             .add_startup_system(score_spawn)
             .add_system_set(
                 SystemSet::new()
-                    .with_run_criteria(FixedTimestep::step(super::FPS as f64))
                     .with_system(update_score)
             );
     }
@@ -28,6 +26,12 @@ fn score_spawn(
     materials: Res<AssetServer>
 ) {
     //Score value
+
+    let text_style = TextStyle {
+        font: materials.load("fonts/Lemon Days.otf"),
+        font_size: FONT_SIZE,
+        color: COLOR,
+    };
 
     commands
         .spawn_bundle(Text2dBundle {

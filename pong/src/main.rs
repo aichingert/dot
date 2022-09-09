@@ -10,8 +10,6 @@ use scoreboard::ScoreboardPlugin;
 use physics::*;
 use states::*;
 
-const FPS: f32 = 1f32 / 60f32;
-
 const BALL_SPEED: f32 = 500f32;
 
 const LEFT_WALL: f32 = -450f32;
