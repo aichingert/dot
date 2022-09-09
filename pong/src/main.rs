@@ -9,6 +9,7 @@ use paddle::*;
 use scoreboard::ScoreboardPlugin;
 use physics::*;
 use states::*;
+use ball::BallPlugin;
 
 const BALL_SPEED: f32 = 500f32;
 
@@ -33,5 +34,6 @@ fn main() {
         .add_startup_system(paddle_setup)
         .add_event::<CollisionEvent>()
         .add_plugin(GamePlugin)
+        .add_plugin(BallPlugin)
         .run();
 }

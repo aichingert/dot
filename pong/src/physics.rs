@@ -82,10 +82,10 @@ impl WallBundle {
     }
 }
 
-pub fn apply_velocity(mut query: Query<(&mut Transform, &Velocity)>) {
+pub fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &Velocity)>) {
     query.for_each_mut( | (mut transform, velocity) | {
-        transform.translation.x += velocity.x * super::FPS;
-        transform.translation.y += velocity.y * super::FPS;
+        transform.translation.x += velocity.x * time.delta_seconds() * 100_f32;
+        transform.translation.y += velocity.y * time.delta_seconds() * 100_f32;
     });
 }
 

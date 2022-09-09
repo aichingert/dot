@@ -74,6 +74,7 @@ impl Paddle {
 pub fn paddle_movement(
     mut query: Query<(&mut Transform, &mut Paddle)>,
     keyboard_input: ResMut<Input<KeyCode>>,
+    time: Res<Time>
 ) {
     let mut first_paddle_direction: f32 = 0.0;
     let mut second_paddle_direction: f32 = 0.0;
@@ -105,12 +106,12 @@ pub fn paddle_movement(
 
     query.for_each_mut( | (mut paddle_transform, paddle) | {
         if paddle.id == 1 && first_paddle {
-            new_paddle_position = paddle_transform.translation.x + first_paddle_direction * PADDLE_SPEED * super::FPS;
+            new_paddle_position = paddle_transform.translation.x + first_paddle_direction * PADDLE_SPEED * time.delta_seconds() * 0.5;
             paddle_transform.translation.x = new_paddle_position.clamp(LEFT_BOUND, RIGHT_BOUND);
         }
 
         if paddle.id == 2 && second_paddle {
-            new_paddle_position = paddle_transform.translation.x + second_paddle_direction * PADDLE_SPEED * super::FPS;
+            new_paddle_position = paddle_transform.translation.x + second_paddle_direction * PADDLE_SPEED * time.delta_seconds() * 0.5;
             paddle_transform.translation.x = new_paddle_position.clamp(LEFT_BOUND, RIGHT_BOUND);
         }
     });
