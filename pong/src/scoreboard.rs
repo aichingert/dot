@@ -1,6 +1,4 @@
-use bevy::{
-    prelude::*
-};
+use bevy::prelude::*;
 
 const FONT_SIZE: f32 = 40f32;
 const COLOR: Color = Color::rgb(1.0, 1.0, 1.0);
@@ -43,15 +41,12 @@ fn score_spawn(
     mut commands: Commands,
     materials: Res<AssetServer>
 ) {
-    //Score value
-
     let text_style = TextStyle {
         font: materials.load("fonts/Lemon Days.otf"),
         font_size: FONT_SIZE,
         color: COLOR,
     };
 
-    
     let box_size = Vec2::new(300.0, 200.0);
     let mut box_position = Vec2::new(-40.0, 280.0);
 
@@ -61,7 +56,6 @@ fn score_spawn(
     commands.spawn_bundle(Text2dBundle {
         text: Text::from_section(player_one_score, text_style.clone()),
         text_2d_bounds: bevy::text::Text2dBounds {
-        // Wrap text in the rectangle
             size: box_size,
         },
         transform: Transform::from_xyz(
@@ -78,7 +72,6 @@ fn score_spawn(
     commands.spawn_bundle(Text2dBundle {
         text: Text::from_section(player_two_score, text_style.clone()),
         text_2d_bounds: bevy::text::Text2dBounds {
-        // Wrap text in the rectangle
             size: box_size,
         },
         transform: Transform::from_xyz(

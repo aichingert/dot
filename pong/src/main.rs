@@ -5,12 +5,12 @@ mod ball;
 mod states;
 
 use bevy::prelude::*;
-use paddle::*;
 use scoreboard::ScoreboardPlugin;
 use physics::*;
 use states::*;
 use ball::BallPlugin;
 
+const FPS: f32 = 1f32 / 60f32;
 const BALL_SPEED: f32 = 500f32;
 
 const LEFT_WALL: f32 = -450f32;
@@ -29,10 +29,9 @@ fn main() {
             ..default()
         })
         .add_state(GameState::Playing)
+        .add_event::<CollisionEvent>()
         .add_plugins(DefaultPlugins)
         .add_plugin(ScoreboardPlugin)
-        .add_startup_system(paddle_setup)
-        .add_event::<CollisionEvent>()
         .add_plugin(GamePlugin)
         .add_plugin(BallPlugin)
         .run();

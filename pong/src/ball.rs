@@ -7,7 +7,19 @@ pub struct BallPlugin;
 impl Plugin for BallPlugin {
     fn build(&self, app: &mut App) {
         app
+            .add_event::<ResetBallEvent>()
             .add_startup_system(spawn_ball);
+
+    }
+}
+
+fn reset_ball(
+    mut event_reader: EventReader<ResetBallEvent>,
+    direction: bool,
+    mut ball_query: Query<&Ball, &mut Transform>
+) {
+    for _event in event_reader.iter() {
+        let ball = ball_query.single_mut();
 
     }
 }
@@ -41,10 +53,4 @@ fn spawn_ball(
         ..default()
     })
     .insert(Velocity(ball_velocity.normalize() * super::BALL_SPEED));
-}
-
-fn ball(
-    mut commands: Commands,
-) {
-
 }
