@@ -4,7 +4,7 @@ use bevy::{
 };
 
 //use crate::scoreboard::Scoreboard;
-use crate::ball::Ball;
+use crate::ball::{Ball, ResetBallEvent};
 use crate::scoreboard::Score;
 
 const WALL_THICKNESS: f32 = 3f32;
@@ -93,8 +93,8 @@ pub fn check_for_collisions(
     mut ball_query: Query<(&mut Velocity, &Transform), With<Ball>,>,
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     mut collision_events: EventWriter<CollisionEvent>,
-    mut text_query: Query<(&mut Text, &mut Score)>
-
+    mut text_query: Query<(&mut Text, &mut Score)>,
+    mut reset_ball_event: EventWriter<ResetBallEvent>
 ) {
     //
     // Gets the only ball we have and stores the velocity and transform values in variables
@@ -137,6 +137,8 @@ pub fn check_for_collisions(
                                 score.0 += 1.0;
                             }
                         });
+
+                        reset_ball_event.send_default();
                     }
                 },
                 Collision::Bottom => {
@@ -148,6 +150,8 @@ pub fn check_for_collisions(
                                 score.0 += 1.0;
                             }
                         });
+                        
+                        reset_ball_event.send_default();
                     }
                 },
                 Collision::Inside => { /* do nothing */ }

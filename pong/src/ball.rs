@@ -13,22 +13,22 @@ impl Plugin for BallPlugin {
     }
 }
 
-fn reset_ball(
-    mut event_reader: EventReader<ResetBallEvent>,
-    direction: bool,
-    mut ball_query: Query<&Ball, &mut Transform>
-) {
-    for _event in event_reader.iter() {
-        let ball = ball_query.single_mut();
-
-    }
-}
-
 #[derive(Component)]
 pub struct Ball;
 
 #[derive(Default)]
 pub struct ResetBallEvent;
+
+pub fn reset_ball(
+    mut event_reader: EventReader<ResetBallEvent>,
+    mut ball_query: Query<(&Ball, &mut Transform)>
+) {
+    for _event in event_reader.iter() {
+        for (_, mut transform) in ball_query.iter_mut() {
+            transform.translation = Vec3::new(0.0, 0.0, 1.0);
+        }
+    }
+}
 
 fn spawn_ball(
     mut commands: Commands
