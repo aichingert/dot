@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::GameState::{Setup, Playing};
+
 const FONT_SIZE: f32 = 40f32;
 const COLOR: Color = Color::rgb(1.0, 1.0, 1.0);
 
@@ -11,10 +13,17 @@ pub struct ScoreboardPlugin;
 impl Plugin for ScoreboardPlugin {
     fn build(&self, app: &mut App) {
         app
-            .add_startup_system(score_spawn)
             .add_system_set(
-                SystemSet::new()
+                SystemSet::on_enter(Setup)
+                    .with_system(spawn_score)
+            )
+            .add_system_set(
+                SystemSet::on_update(Playing)
                     .with_system(update_score)
+            )
+            .add_system_set(
+                SystemSet::on_exit(Playing)
+                    .with_system(clean_up_scoreboard)
             );
     }
 }
@@ -37,7 +46,7 @@ impl std::fmt::Display for Score {
     }
 }
 
-fn score_spawn(
+fn spawn_score(
     mut commands: Commands,
     materials: Res<AssetServer>
 ) {
@@ -93,4 +102,15 @@ fn update_score(
 
         text.sections[0].value = string;
     });
+}
+
+fn clean_up_scoreboard(
+    mut commands: Commands,
+    score_query: Query<(Entity, &Score)>
+) {
+    // Iterate over all scores and remove them
+
+    for (entity, _) in score_query.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
 }

@@ -115,3 +115,12 @@ pub fn paddle_movement(
         }
     });
 }
+
+pub fn clean_up_paddles(
+    mut commands: Commands,
+    paddle_query: Query<(Entity, &Paddle)>
+) {
+    for (entity, _) in paddle_query.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
+}
