@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::GameState::{Setup, Playing};
+use crate::GameState::Playing;
 
 const FONT_SIZE: f32 = 40f32;
 const COLOR: Color = Color::rgb(1.0, 1.0, 1.0);
@@ -14,7 +14,7 @@ impl Plugin for ScoreboardPlugin {
     fn build(&self, app: &mut App) {
         app
             .add_system_set(
-                SystemSet::on_enter(Setup)
+                SystemSet::on_enter(Playing)
                     .with_system(spawn_score)
             )
             .add_system_set(

@@ -9,7 +9,6 @@ use crate::ball::*;
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash)]
 pub enum GameState {
-    Setup,
     Playing
 }
 
@@ -19,7 +18,7 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
             .add_system_set(
-                SystemSet::on_enter(GameState::Setup)
+                SystemSet::on_enter(GameState::Playing)
                     .with_system(paddle_setup)
             )
             .add_system_set(
