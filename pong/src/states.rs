@@ -9,14 +9,19 @@ use crate::ball::*;
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash)]
 pub enum GameState {
+    Menu,
     Playing
 }
+
+#[derive(Default, Debug)]
+pub struct GameResult(pub Option<bool>);
 
 pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
+            .init_resource::<GameResult>()
             .add_system_set(
                 SystemSet::on_enter(GameState::Playing)
                     .with_system(paddle_setup)

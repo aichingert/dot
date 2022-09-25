@@ -3,12 +3,14 @@ mod scoreboard;
 mod physics;
 mod ball;
 mod states;
+mod menu;
 
 use bevy::prelude::*;
 use scoreboard::ScoreboardPlugin;
 use physics::*;
 use states::*;
 use ball::BallPlugin;
+use menu::MenuPlugin;
 
 const FPS: f32 = 1f32 / 60f32;
 const BALL_SPEED: f32 = 500f32;
@@ -28,11 +30,12 @@ fn main() {
             resizable: false,
             ..default()
         })
-        .add_state(GameState::Playing)
+        .add_state(GameState::Menu)
         .add_event::<CollisionEvent>()
         .add_plugins(DefaultPlugins)
         .add_plugin(ScoreboardPlugin)
         .add_plugin(GamePlugin)
         .add_plugin(BallPlugin)
+        .add_plugin(MenuPlugin)
         .run();
 }

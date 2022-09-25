@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::physics::*;
+use crate::states::GameState;
 
 pub struct BallPlugin;
 
@@ -8,8 +9,10 @@ impl Plugin for BallPlugin {
     fn build(&self, app: &mut App) {
         app
             .add_event::<ResetBallEvent>()
-            .add_startup_system(spawn_ball);
-
+            .add_system_set(
+                SystemSet::on_enter(GameState::Playing)
+                    .with_system(spawn_ball)
+            );
     }
 }
 
