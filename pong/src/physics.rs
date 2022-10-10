@@ -95,16 +95,11 @@ pub fn check_for_collisions(
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     mut collision_events: EventWriter<CollisionEvent>,
     mut text_query: Query<(&mut Text, &mut Score)>,
-    mut reset_ball_event: EventWriter<ResetBallEvent>,
-    state: ResMut<State<GameState>>
+    mut reset_ball_event: EventWriter<ResetBallEvent>
 ) {
     //
     // Gets the only ball we have and stores the velocity and transform values in variables
     //
-
-    if state.current() == &GameState::Menu {
-        return;
-    }
 
     let (mut ball_velocity, ball_transform) = ball_query.single_mut();
     let ball_size: Vec2 = ball_transform.scale.truncate();

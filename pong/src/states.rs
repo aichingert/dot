@@ -1,7 +1,4 @@
-use bevy::{
-    prelude::*,
-    time::FixedTimestep,
-};
+use bevy::prelude::*;
 
 use crate::physics::*;
 use crate::paddle::*;
@@ -22,13 +19,13 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
             .init_resource::<GameResult>()
+            .add_event::<CollisionEvent>()
             .add_system_set(
                 SystemSet::on_enter(GameState::Playing)
                     .with_system(paddle_setup)
             )
             .add_system_set(
                 SystemSet::on_update(GameState::Playing)
-                    .with_run_criteria(FixedTimestep::step(super::FPS as f64))
                     .with_system(check_for_collisions)
                     .with_system(reset_ball)
                     .with_system(paddle_movement.before(check_for_collisions))

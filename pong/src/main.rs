@@ -7,7 +7,6 @@ mod menu;
 
 use bevy::prelude::*;
 use scoreboard::ScoreboardPlugin;
-use physics::*;
 use states::*;
 use ball::BallPlugin;
 use menu::MenuPlugin;
@@ -31,7 +30,6 @@ fn main() {
             ..default()
         })
         .add_state(GameState::Menu)
-        .add_event::<CollisionEvent>()
         .add_plugins(DefaultPlugins)
         .add_plugin(ScoreboardPlugin)
         .add_plugin(GamePlugin)
