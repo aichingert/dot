@@ -7,7 +7,7 @@ const COLOR: Color = Color::rgb(1.0, 1.0, 1.0);
 
 #[derive(Component, Default, Debug, Clone, Copy)]
 pub struct Score(pub f32, pub u8);
-
+pub struct GameFinishedEvent;
 pub struct ScoreboardPlugin;
 
 impl Plugin for ScoreboardPlugin {
@@ -44,6 +44,13 @@ impl std::fmt::Display for Score {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0)
     }
+}
+
+pub fn game_finished_event(
+    mut event_reader: &mut EventReader<GameFinishedEvent>,
+
+) {
+    
 }
 
 fn spawn_score(

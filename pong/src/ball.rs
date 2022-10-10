@@ -36,8 +36,6 @@ pub fn reset_ball(
 fn spawn_ball(
     mut commands: Commands
 ) {
-    commands.spawn_bundle(Camera2dBundle::default());
-
     let ball_velocity: Vec2 = Vec2::new(0.5, if rand::random() { -0.5 } else { 0.5 });
 
     commands
