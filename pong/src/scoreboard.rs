@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::GameState::Playing;
+use crate::GameState::{self, *};
 
 const FONT_SIZE: f32 = 40f32;
 const COLOR: Color = Color::rgb(1.0, 1.0, 1.0);
@@ -48,8 +48,11 @@ impl std::fmt::Display for Score {
 
 pub fn game_finished_event(
     mut event_reader: &mut EventReader<GameFinishedEvent>,
-
+    mut state: ResMut<State<GameState>>,
 ) {
+    for _event in event_reader.iter() {
+
+    }
     
 }
 
