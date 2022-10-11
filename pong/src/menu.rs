@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use crate::states::{GameState, GameResult};
+use crate::{states::{GameState, GameResult}, scoreboard::GameFinishedEvent};
 
 
 const BUTTON_COLOR: Color = Color::WHITE;
@@ -38,7 +38,7 @@ fn spawn_camera(
 fn setup_menu(
     mut commands: Commands,
     materials: Res<AssetServer>,
-    mut game_result: ResMut<GameResult>,
+    mut game_result: ResMut<GameResult>
 ) {
     let text_style = TextStyle {
         font: materials.load("fonts/Lemon Days.otf"),

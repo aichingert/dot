@@ -2,7 +2,7 @@ use bevy::{
     prelude::*,
     sprite::collide_aabb::{collide, Collision},
 };
-use crate::states::GameState;
+use crate::{states::{GameState, GameResult}, scoreboard::GameFinishedEvent};
 
 //use crate::scoreboard::Scoreboard;
 use crate::ball::{Ball, ResetBallEvent};
@@ -95,7 +95,9 @@ pub fn check_for_collisions(
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     mut collision_events: EventWriter<CollisionEvent>,
     mut text_query: Query<(&mut Text, &mut Score)>,
-    mut reset_ball_event: EventWriter<ResetBallEvent>
+    mut reset_ball_event: EventWriter<ResetBallEvent>,
+    mut game_finished_event: EventWriter<GameFinishedEvent>,
+    mut game_result: ResMut<GameResult>
 ) {
     //
     // Gets the only ball we have and stores the velocity and transform values in variables
@@ -136,6 +138,11 @@ pub fn check_for_collisions(
                         text_query.for_each_mut( | (_, mut score) | {
                             if score.1 == 1 {
                                 score.0 += 1.0;
+                                
+                                if score.0 > 10.0 {
+                                    game_result.0 = Some(false);
+                                    game_finished_event.send(GameFinishedEvent);
+                                }
                             }
                         });
 
@@ -149,6 +156,11 @@ pub fn check_for_collisions(
                         text_query.for_each_mut( | (_, mut score) | {
                             if score.1 == 2 {
                                 score.0 += 1.0;
+                                
+                                if score.0 > 10.0 {
+                                    game_result.0 = Some(true);
+                                    game_finished_event.send(GameFinishedEvent);
+                                }
                             }
                         });
                         

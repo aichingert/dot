@@ -47,13 +47,12 @@ impl std::fmt::Display for Score {
 }
 
 pub fn game_finished_event(
-    mut event_reader: &mut EventReader<GameFinishedEvent>,
+    mut event_reader: EventReader<GameFinishedEvent>,
     mut state: ResMut<State<GameState>>,
 ) {
     for _event in event_reader.iter() {
-
+        state.set(GameState::Menu).unwrap();
     }
-    
 }
 
 fn spawn_score(
