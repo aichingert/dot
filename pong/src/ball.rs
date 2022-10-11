@@ -12,6 +12,10 @@ impl Plugin for BallPlugin {
             .add_system_set(
                 SystemSet::on_enter(GameState::Playing)
                     .with_system(spawn_ball)
+            )
+            .add_system_set(
+                SystemSet::on_exit(GameState::Playing)
+                    .with_system(clean_up_ball)
             );
     }
 }
@@ -54,4 +58,13 @@ fn spawn_ball(
         ..default()
     })
     .insert(Velocity(ball_velocity.normalize() * super::BALL_SPEED));
+}
+
+fn clean_up_ball(
+    mut commands: Commands,
+    ball_query: Query<(Entity, &Ball)>
+) {
+    for (entity, _) in ball_query.iter() {
+        commands.entity(entity).despawn_recursive();
+    }
 }
