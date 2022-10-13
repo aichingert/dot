@@ -51,6 +51,7 @@ pub fn game_finished_event(
     mut state: ResMut<State<GameState>>,
 ) {
     for _event in event_reader.iter() {
+        state.clear_schedule();
         state.set(GameState::Menu).unwrap();
     }
 }

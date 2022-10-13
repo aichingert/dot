@@ -2,7 +2,7 @@ use bevy::{
     prelude::*,
     sprite::collide_aabb::{collide, Collision},
 };
-use crate::{states::{GameState, GameResult}, scoreboard::GameFinishedEvent};
+use crate::{states::GameResult, scoreboard::GameFinishedEvent};
 
 //use crate::scoreboard::Scoreboard;
 use crate::ball::{Ball, ResetBallEvent};
@@ -139,7 +139,7 @@ pub fn check_for_collisions(
                             if score.1 == 1 {
                                 score.0 += 1.0;
                                 
-                                if score.0 > 10.0 {
+                                if score.0 >= 10.0 {
                                     game_result.0 = Some(false);
                                     game_finished_event.send(GameFinishedEvent);
                                 }
@@ -157,7 +157,7 @@ pub fn check_for_collisions(
                             if score.1 == 2 {
                                 score.0 += 1.0;
                                 
-                                if score.0 > 10.0 {
+                                if score.0 >= 10.0 {
                                     game_result.0 = Some(true);
                                     game_finished_event.send(GameFinishedEvent);
                                 }

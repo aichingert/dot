@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use crate::{states::{GameState, GameResult}, scoreboard::GameFinishedEvent};
+use crate::states::{GameState, GameResult};
 
 
 const BUTTON_COLOR: Color = Color::WHITE;
@@ -47,7 +47,7 @@ fn setup_menu(
     };
 
     if let Some(winner) = game_result.0 {
-        let box_size = Vec2::new(300.0, 200.0);
+        let box_size = Vec2::new(500.0, 200.0);
         let box_position = Vec2::new(30.0, 20.0);
 
         commands.spawn_bundle(Text2dBundle {
