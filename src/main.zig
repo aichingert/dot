@@ -15,6 +15,17 @@ pub fn main() !void {
     var iter = dir.iterate();
 
     while (try iter.next()) |entry| {
+        if (entry.kind == .directory) {
+            std.debug.print("dir: {s}\n", .{entry.name});
+            var subDir = try std.fs.cwd().openIterableDir(entry.name, .{});
+
+            var subIter = subDir.iterate();
+            while (try subIter.next()) |subEntry| {
+                std.debug.print("   - {s} {?}\n", .{ subEntry.name, subEntry.kind });
+            }
+
+            subDir.close();
+        }
         std.debug.print("{s}\n", .{entry.name});
     }
 
