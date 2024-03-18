@@ -1,0 +1,3 @@
+= Tefi
+
+This is a simple cli tool to find a term in the files of all the sub directories of the current file
