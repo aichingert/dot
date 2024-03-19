@@ -1,33 +1,55 @@
 const std = @import("std");
 
-pub fn main() !void {
-    var args = std.process.args();
-    _ = args.skip();
+fn searchDir(ident: []const u8) !void {
+    std.debug.print("Dir: {s}\n", .{ident});
 
-    const term = args.next() orelse {
-        std.debug.print("ERROR: you have to provide a search term\n", .{});
-        return;
-    };
-
-    var dir = try std.fs.cwd().openIterableDir(".", .{});
+    var dir = try std.fs.cwd().openIterableDir(ident, .{});
     defer dir.close();
 
     var iter = dir.iterate();
 
     while (try iter.next()) |entry| {
-        if (entry.kind == .directory) {
-            std.debug.print("dir: {s}\n", .{entry.name});
-            var subDir = try std.fs.cwd().openIterableDir(entry.name, .{});
+        const path = try concatDir(ident, entry.name);
 
-            var subIter = subDir.iterate();
-            while (try subIter.next()) |subEntry| {
-                std.debug.print("   - {s} {?}\n", .{ subEntry.name, subEntry.kind });
+        if (entry.kind == .directory) {
+            try searchDir(path);
+        } else if (entry.kind == .file) {
+            var file = try std.fs.cwd().openFile(path, .{ .mode = std.fs.File.OpenMode.read_only });
+
+            var buf_reader = std.io.bufferedReader(file.reader());
+            var in_stream = buf_reader.reader();
+            var buf: [1024]u8 = undefined;
+
+            std.debug.print("    file: {s} | {any}\n", .{ entry.name, entry.kind });
+            while (in_stream.readUntilDelimiterOrEof(&buf, '\n') catch {
+                continue;
+            }) |line| {
+                _ = line;
             }
 
-            subDir.close();
+            file.close();
         }
-        std.debug.print("{s}\n", .{entry.name});
     }
+}
 
-    std.debug.print("{s}\n", .{term});
+const allocator = std.heap.page_allocator;
+
+fn concatDir(f: []const u8, s: []const u8) ![]const u8 {
+    var res = try allocator.alloc(u8, f.len + s.len + 1);
+    std.mem.copy(u8, res[0..], f);
+    res[f.len] = '/';
+    std.mem.copy(u8, res[f.len + 1 ..], s);
+    return res;
+}
+
+pub fn main() !void {
+    var args = std.process.args();
+    _ = args.skip();
+
+    _ = args.next() orelse {
+        std.debug.print("ERROR: you have to provide a search term\n", .{});
+        return;
+    };
+
+    try searchDir(".");
 }

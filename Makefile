@@ -1,7 +1,4 @@
-PROGRAM = cli-tool
-
-run: main
-	./${PROGRAM}
+PROGRAM = tefi
 
 build: main
 
@@ -13,3 +10,4 @@ main: src/main.zig
 	mv zig-out/bin/${PROGRAM} .
 	rm -rf zig-cache
 	rm -rf zig-out
+
