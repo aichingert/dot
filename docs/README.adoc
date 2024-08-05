@@ -1,0 +1,7 @@
+= dots
+aichingert
+:icons: font
+:toc:
+:toclevels: 3
+
+my dotfiles so it is easier to share them between my pc and laptop
