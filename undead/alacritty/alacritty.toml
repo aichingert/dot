@@ -1,6 +1,10 @@
 [font]
 size = 13.0
 
+[cursor]
+style = "Underline"
+# vi_mode_style = "Block"
+
 [font.normal]
 family = "Fira Mono"
 style = "Medium"

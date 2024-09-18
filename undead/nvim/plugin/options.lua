@@ -1,6 +1,7 @@
 local opt = vim.opt
 
 opt.inccommand = "split"
+opt.clipboard = "unnamedplus"
 
 opt.smartcase = true
 opt.ignorecase = true
@@ -13,6 +14,6 @@ opt.softtabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
 opt.termguicolors = true
-opt.scrolloff = 15
+opt.scrolloff = 5
 
 opt.formatoptions:remove "o"
