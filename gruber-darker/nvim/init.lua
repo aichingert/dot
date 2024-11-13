@@ -30,15 +30,6 @@ require("lazy").setup({
             })
         end
     },
-    { 
-        lazy = false,
-        priority = 1000,
-        "chrisduerr/vim-undead", 
-        name = "undead", 
-        config = function()
-            -- vim.cmd.colorscheme("undead") 
-        end 
-    },
     {
         lazy = false,
         priority = 1000,
@@ -79,9 +70,22 @@ require("lazy").setup({
 
 })
 
+vim.treesitter.language.register("mor", { "mo" })
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.mor = {
+  install_info = {
+    url = "github.com/veqox/tree-sitter-mor",
+    branch = "main",
+    files = {"src/parser.c"}, 
+    generate_requires_npm = false, 
+    requires_generate_from_grammar = false, 
+  },
+  filetype = "mo",
+}
+
 vim.filetype.add({
     pattern = {
-        ['.*%.mor'] = 'odin',
+        [".*%.mo"] = "mor",
     }
 })
 
