@@ -5,3 +5,8 @@ aichingert
 :toclevels: 3
 
 my dotfiles so it is easier to share them between my pc and laptop
+
+[source, sh]
+----
+pacman -Syu alacritty neovim ttf-iosevka-nerd eza
+----
