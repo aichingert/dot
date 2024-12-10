@@ -17,17 +17,26 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
+        opts = {
+            ensure_installed = { 
+                "rust", "zig", "c", "cpp", "lua", "asm", "go", "mor",
+            },
+            sync_install = false,
+            highlight = { enable = true },
+            indent = { enable = false }
+        },
         build = ":TSUpdate",
-        config = function()
-            local configs = require ("nvim-treesitter.configs")
-            configs.setup({
-                ensure_installed = { 
-                    "rust", "zig", "c", "cpp", "go", "vim", "lua", "asm", "odin",
+        config = function(_, opts)
+            require("nvim-treesitter.parsers").get_parser_configs().mor = {
+                install_info = {
+                    url = "github.com/veqox/tree-sitter-mor",
+                    files = { "src/parser.c" },
+                    branch = "main"
                 },
-                sync_install = false,
-                highlight = { enable = true },
-                indent = { enable = false }
-            })
+                filetype = "mo"
+            }
+
+            require("nvim-treesitter.configs").setup(opts)
         end
     },
     {
@@ -68,25 +77,19 @@ require("lazy").setup({
         end,
     },
 
-})
-
-vim.treesitter.language.register("mor", { "mo" })
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.mor = {
-  install_info = {
-    url = "github.com/veqox/tree-sitter-mor",
-    branch = "main",
-    files = {"src/parser.c"}, 
-    generate_requires_npm = false, 
-    requires_generate_from_grammar = false, 
-  },
-  filetype = "mo",
-}
-
-vim.filetype.add({
-    pattern = {
-        [".*%.mo"] = "mor",
+    {
+        "veqox/tree-sitter-mor.nvim",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require("tree-sitter-mor").setup()
+        end,
+        build = function()
+            require("tree-sitter-mor").build()
+        end
     }
+
 })
 
 -- vim.cmd[[ colorscheme undead ]]
