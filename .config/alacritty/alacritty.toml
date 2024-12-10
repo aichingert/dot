@@ -1,0 +1,10 @@
+[general]
+import = [
+    "~/.config/alacritty/theme.toml"
+]
+
+[font]
+size = 15.5
+
+[cursor]
+style = "Underline"
