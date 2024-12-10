@@ -1,7 +1,3 @@
-[font.normal]
-family = "IosevkaNerdFont"
-style = "Medium"
-
 [colors.primary]
 foreground = "#e4e4e4"
 background = "#181818"

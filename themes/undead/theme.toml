@@ -1,23 +1,12 @@
-[font]
-size = 15.5
-
-[cursor]
-style = "Underline"
-# vi_mode_style = "Block"
-
-[font.normal]
-family = "IosevkaNerdFont"
-style = "Medium"
-
 [colors.primary]
-foreground = "#e4e4e4"
+foreground = "#aaaaaa"
 background = "#181818"
 
 [colors.normal]
-black =   "#000000"
-red =     "#f43841"
-green =   "#73d936"
-yellow =  "#ffdd33"
+black =   "#181818"
+red =     "#ac4242"
+green =   "#90a959"
+yellow =  "#f4bf75"
 blue =    "#6a9fb5"
 magenta = "#aa759f"
 cyan =    "#75b5aa"

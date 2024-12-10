@@ -1,6 +1,0 @@
-= Install
-
-[source, sh]
-----
-sudo pacman -Syu ttf-iosevka-nerd
-----
