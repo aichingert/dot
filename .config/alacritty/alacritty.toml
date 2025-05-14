@@ -16,3 +16,4 @@ style = "Medium"
 
 [cursor]
 style = { shape = "underline", blinking = "Always"}
+blink_interval = 500
