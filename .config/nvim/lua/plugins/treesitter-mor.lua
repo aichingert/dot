@@ -1,4 +1,6 @@
 return {
+    lazy = false,
+
     "veqox/tree-sitter-mor.nvim",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
