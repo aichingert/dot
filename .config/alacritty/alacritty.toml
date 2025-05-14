@@ -15,4 +15,4 @@ family = "IosevkaNerdFont"
 style = "Medium"
 
 [cursor]
-style = "Underline"
+style = { shape = "underline", blinking = "Always"}
