@@ -32,8 +32,7 @@ alias gr="git reset --staged"
 # | %D -- ref names 
 # | %n -- new line 
 # | %s -- commit message
-alias gl="git log --all --graph --pretty=\
-    format:'%C(magenta)%h %C(white) %an %ar%C(auto) %D%n%s%n'"
+alias gl="git log --all --graph --pretty=format:'%C(magenta)%h %C(white) %an %ar%C(auto) %D%n%s%n'"
 alias gc="git commit"
 alias gcl="git clone"
 alias pacup="pacman -Syu"
