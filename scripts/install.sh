@@ -25,6 +25,11 @@ type nvim >/dev/null 2>&1 || {
     sudo pacman -S neovim
 }
 
+type git >/dev/null 2>&1 || {
+    echo "installing: git..."
+    sudo pamcan -S git
+}
+
 zsh_plugins=(zsh-users/zsh-autosuggestions zsh-users/zsh-syntax-highlighting)
 
 for plugin in ${zsh_plugins[@]}
@@ -35,8 +40,9 @@ do
     fi
 done
 
+cp -r $DOT/.config/git $CONF
 cp -r $DOT/.config/nvim $CONF
 cp -r $DOT/.config/alacritty $CONF
 cp -r $DOT/.config/.zshrc ~/.zshrc
 
-zsh -i -c "source ~/.zshrc"
+exec zsh
