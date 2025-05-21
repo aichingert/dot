@@ -2,7 +2,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
         ensure_installed = { 
-            "rust", "zig", "c", "cpp", "lua", "asm", "go", "mor",
+            "rust", "zig", "c", "cpp", "lua", "asm", "go", "javascript", "mor",
         },
         sync_install = false,
         highlight = { enable = true },

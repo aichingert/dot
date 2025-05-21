@@ -46,3 +46,4 @@ cp -r $DOT/.config/alacritty $CONF
 cp -r $DOT/.config/.zshrc ~/.zshrc
 
 exec zsh
+exit
