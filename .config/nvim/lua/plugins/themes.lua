@@ -36,4 +36,10 @@ return {
         config = function()
         end,
     },
+    {
+        "rebelot/kanagawa.nvim",
+        name = "kanagawa",
+        config = function()
+        end,
+    },
 }
