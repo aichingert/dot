@@ -15,8 +15,7 @@ export HISTFILE=$HOME/.local/zsh_history
 
 ##-------------------- prompt --------------------
 
-# TODO: set this depending on the theme
-PS1="%F{#e8b589}%n%F{#6e94b2}[%~] %F{#aeaed1}%T%F{#df6882}%(?.. [%?])%F{#aeaed1}> "
+PS1="%F{#e8b589}%n %F{#6e94b2}%~%F{#df6882}%(?.. %?)%F{#6e94b2}>" 
 
 ##-------------------- aliases --------------------
 

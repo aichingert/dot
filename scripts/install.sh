@@ -36,7 +36,7 @@ for plugin in ${zsh_plugins[@]}
 do
     if [ ! -d $ZSH$plugin ] ; then
         echo "cloning: $plugin..."
-        git clone git@github.com:$plugin.git --depth=1 -q $ZSH$plugin
+        git clone https://github.com/$plugin.git --depth=1 -q $ZSH$plugin
     fi
 done
 
